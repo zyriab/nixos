@@ -1,16 +1,24 @@
 { pkgs }:
 
-pkgs.writeTextFile {
+pkgs.writeShellApplication {
     name = "yy-function";
-    destination = "/share/yy-function";
+    runtimeInputs = [ pkgs.yazi ];
     text = ''
+        #!/bin/sh
+
+        # Define the yy function
         function yy() {
-            local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
-            ${pkgs.yazi}/bin/yazi "$@" --cwd-file="$tmp"
-            if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-                cd -- "$cwd"
+            local tmp
+            tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+            yazi "$@" --cwd-file="$tmp"
+            if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+                builtin cd -- "$cwd"
             fi
             rm -f -- "$tmp"
         }
-    '';
+
+        # Export the function to make it available in subshells
+        export -f yy
+  '';
 }
+
