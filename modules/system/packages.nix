@@ -46,6 +46,15 @@ in
             bat
             sword
             ruby
+            ungoogled-chromium
+            postman
+            redshift
+            fd
+
+            # yazi deps
+            ffmpegthumbnailer
+            unar
+            poppler
         ];
     };
 }
