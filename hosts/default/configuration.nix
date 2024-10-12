@@ -9,8 +9,10 @@
 # sudo nixos-rebuild switch --upgrade
 # nix run home-manager/master -- init && sudo cp ~/.config/home-manager/home.nix /etc/nixos
 
-{ config, pkgs, inputs, ... }:
-
+{ pkgs, inputs, ... }:
+let
+  yy-function = import ../../scripts/yazi.nix { inherit pkgs; };
+in
 {
     imports = [
         ./hardware-configuration.nix
@@ -22,6 +24,10 @@
     ];
 
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+    environment.interactiveShellInit = ''
+        source ${yy-function}/share/yy-function
+    '';
 
     # Preventing the laptop from sleeping on lid close
     services.logind.lidSwitchExternalPower = "ignore";
