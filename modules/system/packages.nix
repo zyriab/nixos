@@ -33,6 +33,7 @@ in
             stylua
             cargo
             clang
+            clang-tools
             gcc
             gnumake
             nodejs
