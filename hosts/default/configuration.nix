@@ -12,102 +12,109 @@
 { pkgs, inputs, ... }:
 
 {
-    imports = [
-        ./hardware-configuration.nix
-        ../../modules/system/main-user.nix
-        ../../modules/system/aliases.nix
-        ../../modules/system/env-vars.nix
-        ../../modules/system/packages.nix
-        ../../modules/system/programs.nix
-    ];
+  imports = [
+    ./hardware-configuration.nix
+    ../../modules/system/main-user.nix
+    ../../modules/system/aliases.nix
+    ../../modules/system/env-vars.nix
+    ../../modules/system/packages.nix
+    ../../modules/system/programs.nix
+  ];
 
-    nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
-    # Preventing the laptop from sleeping on lid close
-    services.logind.lidSwitchExternalPower = "ignore";
+  # Preventing the laptop from sleeping on lid close
+  services.logind.lidSwitchExternalPower = "ignore";
 
-    ### Bootloader.
-    boot.loader.systemd-boot.enable = true;
-    boot.loader.efi.canTouchEfiVariables = true;
+  ### Bootloader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
-    networking.hostName = "lab";
+  networking.hostName = "lab";
 
-    # Configure network proxy if necessary
-    # networking.proxy.default = "http://user:password@proxy:port/";
-    # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+  # Configure network proxy if necessary
+  # networking.proxy.default = "http://user:password@proxy:port/";
+  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-    ### Enable networking
-    networking.networkmanager.enable = true;
+  ### Enable networking
+  networking.networkmanager.enable = true;
 
-    ### Locale
-    time.timeZone = "Europe/Brussels";
+  ### Locale
+  time.timeZone = "Europe/Brussels";
 
-    # Select internationalisation properties.
-    i18n.defaultLocale = "en_US.UTF-8";
+  # Select internationalisation properties.
+  i18n.defaultLocale = "en_US.UTF-8";
 
-    i18n.extraLocaleSettings = {
-        LC_ADDRESS = "fr_BE.UTF-8";
-        LC_IDENTIFICATION = "fr_BE.UTF-8";
-        LC_MEASUREMENT = "fr_BE.UTF-8";
-        LC_MONETARY = "fr_BE.UTF-8";
-        LC_NAME = "fr_BE.UTF-8";
-        LC_NUMERIC = "fr_BE.UTF-8";
-        LC_PAPER = "fr_BE.UTF-8";
-        LC_TELEPHONE = "fr_BE.UTF-8";
-        LC_TIME = "fr_BE.UTF-8";
+  i18n.extraLocaleSettings = {
+    LC_ADDRESS = "fr_BE.UTF-8";
+    LC_IDENTIFICATION = "fr_BE.UTF-8";
+    LC_MEASUREMENT = "fr_BE.UTF-8";
+    LC_MONETARY = "fr_BE.UTF-8";
+    LC_NAME = "fr_BE.UTF-8";
+    LC_NUMERIC = "fr_BE.UTF-8";
+    LC_PAPER = "fr_BE.UTF-8";
+    LC_TELEPHONE = "fr_BE.UTF-8";
+    LC_TIME = "fr_BE.UTF-8";
+  };
+
+  ### Keymaps
+  services.xserver.xkb = {
+    layout = "us";
+    variant = "colemak_dh_iso";
+    options = "caps:swapescape";
+  };
+
+  ### Users 
+  main-user.enable = true;
+  main-user.username = "zyr";
+
+  home-manager = {
+    extraSpecialArgs = {
+      inherit inputs;
     };
-
-    ### Keymaps
-    services.xserver.xkb = {
-        layout = "us";
-        variant = "colemak_dh_iso";
-        options = "caps:swapescape";
+    users = {
+      zyr = import ./home.nix;
     };
+  };
 
-    ### Users 
-    main-user.enable = true;
-    main-user.username = "zyr";
+  ### Fonts
+  fonts.packages = with pkgs; [
+    fira
+    (nerdfonts.override { fonts = [ "FiraMono" ]; })
+  ];
 
-    home-manager = {
-        extraSpecialArgs = { inherit inputs; };
-        users = { zyr = import ./home.nix; };
-    };
+  # Some programs need SUID wrappers, can be configured further or are
+  # started in user sessions.
+  # programs.mtr.enable = true;
+  # programs.gnupg.agent = {
+  #   enable = true;
+  #   enableSSHSupport = true;
+  # };
 
-    ### Fonts
-    fonts.packages = with pkgs; [ 
-        fira
-        (nerdfonts.override { fonts = [ "FiraMono" ]; })
-    ];
+  # List services that you want to enable:
 
-    # Some programs need SUID wrappers, can be configured further or are
-    # started in user sessions.
-    # programs.mtr.enable = true;
-    # programs.gnupg.agent = {
-    #   enable = true;
-    #   enableSSHSupport = true;
-    # };
+  ### SSH
+  programs.ssh.startAgent = true;
+  # Enable the OpenSSH daemon.
+  services.openssh.enable = true;
+  services.openssh.settings.PasswordAuthentication = true;
+  services.openssh.settings.LogLevel = "DEBUG";
 
-    # List services that you want to enable:
+  # Open ports in the firewall.
+  networking.firewall.allowedTCPPorts = [ 22 ];
+  # networking.firewall.allowedUDPPorts = [ ... ];
+  # Or disable the firewall altogether.
+  networking.firewall.enable = true;
 
-    ### SSH
-    programs.ssh.startAgent = true;
-    # Enable the OpenSSH daemon.
-    services.openssh.enable = true;
-    services.openssh.settings.PasswordAuthentication = true;
-    services.openssh.settings.LogLevel = "DEBUG";
-
-    # Open ports in the firewall.
-    networking.firewall.allowedTCPPorts = [ 22 ];
-    # networking.firewall.allowedUDPPorts = [ ... ];
-    # Or disable the firewall altogether.
-    networking.firewall.enable = true;
-
-    # This value determines the NixOS release from which the default
-    # settings for stateful data, like file locations and database versions
-    # on your system were taken. It‘s perfectly fine and recommended to leave
-    # this value at the release version of the first install of this system.
-    # Before changing this value read the documentation for this option
-    # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-    system.stateVersion = "24.05"; # Did you read the comment?
+  # This value determines the NixOS release from which the default
+  # settings for stateful data, like file locations and database versions
+  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # this value at the release version of the first install of this system.
+  # Before changing this value read the documentation for this option
+  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+  system.stateVersion = "24.05"; # Did you read the comment?
 
 }

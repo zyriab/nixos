@@ -16,7 +16,6 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [
-    
 
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
@@ -71,37 +70,43 @@
     # EDITOR = "emacs";
   };
 
-    programs = {
+  programs = {
     # Let Home Manager install and manage itself.
-        home-manager.enable = true;
-        btop.enable = true;
+    home-manager.enable = true;
+    btop.enable = true;
 
-        wezterm = {
-            enable = true;
-            extraConfig = builtins.readFile ../../modules/user/terminals/wezterm/.wezterm.lua;
-            colorSchemes = builtins.fromTOML (builtins.readFile ../../modules/user/terminals/wezterm/github_dark_colorblind.toml);
-        };
-
-        zoxide = {
-           enable = true;
-           options = [ "--cmd cd" ];
-        };
-
-        bash = {
-            enable = true;
-            bashrcExtra = ''
-            eval "$(zoxide init bash)"
-            '';
-        };
-
-        git = {
-            enable = true;
-            userEmail = "howdy@wallenart.dev";
-            userName = "Arthur Wallendorff";
-            extraConfig = {
-                core = { editor = "nvim"; };
-                init = { defaultBranch = "master"; };
-            };
-        };
+    wezterm = {
+      enable = true;
+      extraConfig = builtins.readFile ../../modules/user/terminals/wezterm/.wezterm.lua;
+      colorSchemes = builtins.fromTOML (
+        builtins.readFile ../../modules/user/terminals/wezterm/github_dark_colorblind.toml
+      );
     };
+
+    zoxide = {
+      enable = true;
+      options = [ "--cmd cd" ];
+    };
+
+    bash = {
+      enable = true;
+      bashrcExtra = ''
+        eval "$(zoxide init bash)"
+      '';
+    };
+
+    git = {
+      enable = true;
+      userEmail = "howdy@wallenart.dev";
+      userName = "Arthur Wallendorff";
+      extraConfig = {
+        core = {
+          editor = "nvim";
+        };
+        init = {
+          defaultBranch = "master";
+        };
+      };
+    };
+  };
 }
