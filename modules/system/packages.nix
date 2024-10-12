@@ -9,6 +9,7 @@ in
             allowUnfree = true;
         };
 
+
         # List packages installed in system profile. To search, run:
         # $ nix search wget
         environment.systemPackages = with pkgs; [
@@ -16,45 +17,61 @@ in
             yy
 
             # Repo
-            nixd
-            curl
-            wget
-            nix-search-cli
-            gh
-            go
-            ripgrep
-            golangci-lint
-            imagemagick
-            lua
-            luarocks
-            fzf
-            ngrok
-            jq
-            stylua
+            bat
+            browsh
             cargo
+            curl
+            fd
+            gh
+            imagemagick
+            jq
+            neofetch
+            nix-search-cli
+            nodejs
+            qmk
+            redshift
+            ungoogled-chromium
+            wget
+            zip
+
+            # Dev tools
+            air
+            go
+            harlequin
+            lua
+            postman
+            ruby
+            templ
+
+            # Neovim deps
             clang
             clang-tools
+            delve
+            fzf
             gcc
             gnumake
-            nodejs
-            zip
-            unzip
+            go-tools
+            golangci-lint
             libconfig
-            neofetch
-            qmk
-            browsh
-            bat
+            luarocks
+            nixd
+            nixpkgs-fmt
+            prettierd
+            ripgrep
+            stylua
             sword
-            ruby
-            ungoogled-chromium
-            postman
-            redshift
-            fd
+            unzip
+
+            # AVR
+            arduino-cli
+            avrdude
+            pkgsCross.avr.buildPackages.gcc # avr-gcc
 
             # yazi deps
             ffmpegthumbnailer
-            unar
             poppler
+            unar
         ];
     };
+
 }
