@@ -76,6 +76,12 @@
         home-manager.enable = true;
         btop.enable = true;
 
+        wezterm = {
+            enable = true;
+            extraConfig = builtins.readFile ../../modules/user/terminals/wezterm/.wezterm.lua;
+            colorSchemes = builtins.fromTOML (builtins.readFile ../../modules/user/terminals/wezterm/github_dark_colorblind.toml);
+        };
+
         zoxide = {
            enable = true;
            options = [ "--cmd cd" ];
