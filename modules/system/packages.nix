@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 let
     yy = import ../../scripts/yazi.nix { inherit pkgs; };
