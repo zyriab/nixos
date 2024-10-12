@@ -92,8 +92,9 @@ config.audible_bell = "Disabled"
 -- Font
 config.font = wezterm.font("FiraMono Nerd Font Mono")
 
+-- TODO: remove this if it works through home-manager
 -- Colors
-config.color_scheme = "github_dark_colorblind"
+-- config.color_scheme = "github_dark_colorblind"
 
 -- Tab bar
 config.use_fancy_tab_bar = false
