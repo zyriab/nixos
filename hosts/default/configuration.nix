@@ -19,18 +19,13 @@ in
         ./hardware-configuration.nix
         ../../modules/system/main-user.nix
         ../../modules/system/aliases.nix
+        ../../modules/system/env-vars.nix
     ];
 
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
     # Preventing the laptop from sleeping on lid close
     services.logind.lidSwitchExternalPower = "ignore";
-
-    ### Env vars
-    environment.variables = {
-        EDITOR = "nvim";
-        TERM = "screen-256color";
-    };
 
     ### Bootloader.
     boot.loader.systemd-boot.enable = true;
