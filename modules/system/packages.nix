@@ -16,6 +16,7 @@ in
             yy
 
             # Repo
+            nixd
             curl
             wget
             nix-search-cli
