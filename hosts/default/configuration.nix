@@ -11,9 +11,6 @@
 
 { config, pkgs, inputs, ... }:
 
-let
-    yy = import ../../scripts/yazi.nix { inherit pkgs; };
-in
 {
     imports = [
         ./hardware-configuration.nix

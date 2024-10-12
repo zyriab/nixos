@@ -1,5 +1,8 @@
 { config, lib, pkgs, ... }:
 
+let
+    yy = import ../../scripts/yazi.nix { inherit pkgs; };
+in
 {
     config = {
         nixpkgs.config = {
