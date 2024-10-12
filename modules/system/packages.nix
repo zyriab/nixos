@@ -63,7 +63,6 @@ in
             unzip
 
             # AVR
-            arduino-cli
             avrdude
             pkgsCross.avr.buildPackages.gcc # avr-gcc
 
