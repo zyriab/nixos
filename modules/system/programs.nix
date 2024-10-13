@@ -28,10 +28,11 @@
 
         extraConfig = ''
           set -g default-terminal "''${TERM}"
-          set -g terminal-overrides "''${TERM}"
+          set -ga terminal-overrides "''${TERM}"
           set -ga terminal-overrides ",screen-256color:Tc"
           set -as terminal-overrides ",*:Smulx=\E[4::%p1%dm" # undercurl support
           set -as terminal-overrides ",*:Setulc=\E[58::2::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m" # underscore colors - needs tmux-3.0
+          set -ga terminal-overrides '*:Ss=\E[%p1%d q:Se=\E[ q' # this is for the cursor shape
 
         '';
       };
