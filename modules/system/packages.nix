@@ -60,6 +60,7 @@ in
       stylua
       sword
       unzip
+      icu
 
       # AVR
       avrdude
