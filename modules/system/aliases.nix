@@ -13,6 +13,7 @@
       got = "go test ./...";
       qc = "qmk compile -e CONVERT_TO=promicro_rp2040 -km colemak-v1";
       brs = "browsh";
+      tmx = "tmux new -A -s lab";
     };
   };
 }
