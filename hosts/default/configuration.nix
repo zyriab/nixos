@@ -9,8 +9,16 @@
 # sudo nixos-rebuild switch --upgrade
 # nix run home-manager/master -- init && sudo cp ~/.config/home-manager/home.nix /etc/nixos
 
-{ pkgs, inputs, ... }:
+{
+  pkgs,
+  inputs,
+  lib,
+  ...
+}:
 
+let
+  loginDefsContent = builtins.readFile ../../modules/system/login.defs;
+in
 {
   imports = [
     ./hardware-configuration.nix
@@ -28,6 +36,8 @@
 
   # Preventing the laptop from sleeping on lid close
   services.logind.lidSwitchExternalPower = "ignore";
+
+  environment.etc."login.defs".source = lib.mkForce (pkgs.writeText "login.defs" loginDefsContent);
 
   ### Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -64,6 +74,7 @@
   services.xserver.xkb = {
     layout = "us";
     variant = "colemak_dh_iso";
+    model = "pc104";
     options = "caps:swapescape";
   };
 
