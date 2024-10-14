@@ -17,6 +17,7 @@
 }:
 
 let
+  # Overwriting the login config so that Kmscon won't timeout the login after 60 seconds
   loginDefsContent = builtins.readFile ../../modules/system/login.defs;
 in
 {
