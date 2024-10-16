@@ -24,13 +24,13 @@ in
       gh
       imagemagick
       jq
+      lsof
       neofetch
       nix-search-cli
       nodejs
       qmk
       redshift
       ungoogled-chromium
-      wget
       zip
 
       # Dev tools
@@ -61,6 +61,7 @@ in
       sword
       unzip
       icu
+      wget
 
       # AVR
       avrdude
