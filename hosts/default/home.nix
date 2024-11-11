@@ -106,6 +106,11 @@
         init = {
           defaultBranch = "master";
         };
+        # TODO: make sure this works
+        # git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+        remote.origin = {
+            fetch = "+refs/heads/*:refs/remotes/origin/*";
+        };
       };
     };
   };
